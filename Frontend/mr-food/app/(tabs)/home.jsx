@@ -8,7 +8,7 @@ import {Colors} from '../../constants/Colors'
 import MenuTab from '../../components/MenuTab';
 import ItemCard from '../../components/ItemCard';
 import { CardData } from '../../assets/data/data';
-
+import {useSelector} from 'react-redux'
 
 
 
@@ -20,6 +20,7 @@ import { CardData } from '../../assets/data/data';
 
 
 const home = () => {
+  const {card}=useSelector(state=>state.cart)
   const data = [
     {id:1, title:'Pizza', icon:<Ionicons name="pizza" size={28} color={Colors.secondary} />},
     {id:2, title:'Burger', icon:<FontAwesome6 name="burger" size={28} color={Colors.secondary} />},
@@ -84,7 +85,7 @@ const home = () => {
 
           <View className='flex justify-center p-5 pt-0 mt-2  '>
             <FlatList
-            data={CardData}
+            data={card}
             renderItem={renderCard}
             keyExtractor={item => item.id}
             numColumns={2}

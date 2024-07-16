@@ -38,12 +38,12 @@ const index = () => {
     </View>
 
     <View className='flex flex-row top-[66vh] p-8 justify-between items-center'>
-      <TouchableOpacity >
+      <TouchableOpacity onPress={()=>(router.push('/home'))}>
         <Text className='text-white'>Skip</Text>
       </TouchableOpacity>
 
 
-      <TouchableOpacity onPress={()=>(router.push('/home'))}>
+      <TouchableOpacity onPress={()=>(router.push('/SignIn'))}>
       <View className='flex h-10 w-10 bg-white justify-center items-center rounded-lg shadow-lg'>
       <AntDesign name="arrowright" size={20} color="black" />
       </View>

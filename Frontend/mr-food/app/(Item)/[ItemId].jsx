@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, TouchableOpacity, Image, FlatList } from 'react-native'
 import React from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons';
 import BgImg from '../../assets/images/bg.jpg'
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,7 +17,7 @@ import { Feather } from '@expo/vector-icons';
 
 const Item = () => {
   const [fav, setFav] = React.useState(false);
-
+  const router=useRouter()
   const {ItemId}=useLocalSearchParams();
 
   const renderCard = ({ item }) => {
@@ -32,7 +32,7 @@ const Item = () => {
       <LinearGradient className="flex-1" colors={["rgba(0,0,0,0.9)","rgba(0,0,0,0.8)"]}>
         <SafeAreaView className='flex-1'>
           <View className='flex flex-row justify-between items-center px-2'>
-          <TouchableOpacity>  
+          <TouchableOpacity onPress={()=>(router.back())}>  
           <Ionicons name="chevron-back-outline" size={32} color={Colors.secondary} />
           </TouchableOpacity>
 
