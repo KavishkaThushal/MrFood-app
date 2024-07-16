@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userSchema=new mongoose.Schema({
     username:{
         type:String,
-        required:true,
+        
 
     },
     email:{
@@ -16,15 +16,15 @@ const userSchema=new mongoose.Schema({
     },
     address:{
         type:String,
-        required:true,
+        
     },
     mobilenumber:{
         type:String,
-        required:true,
+        
     },
     postalcode:{
         type:String,
-        required:true,
+        
     },
     
 
