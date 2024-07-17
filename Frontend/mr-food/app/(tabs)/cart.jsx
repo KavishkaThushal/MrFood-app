@@ -10,6 +10,7 @@ import CartItem from '../../components/CartItem'
 import {useStripe} from '@stripe/stripe-react-native'
 import {useSelector,useDispatch} from 'react-redux'
 import { selectTotalAmount } from '../../Redux/Reducers/CartReducer'
+import axios from 'axios'
 const cart = () => {
   const router=useRouter()
   const {cart,card,}=useSelector(state=>state.cart)
@@ -21,26 +22,39 @@ const cart = () => {
   // console.log(totalAmount);
 
   const checkout = async () => {
-    const { error } = await initPaymentSheet({
-      merchantDisplayName: 'Mr Food',
-      defaultShippingDetails: {
-        name: 'Anushka',
-        address: {
-          line1: 'no 33, hamparawa, diyathalwa'
+
+    try {
+      const response=await axios.post('http://192.168.8.113:4000/api/pay/payment',{amount:totalAmount+deliveryFees})
+      if(response.data.success===true){
+        
+        const initResponse= await initPaymentSheet({
+          merchantDisplayName: 'Mr Food',
+          paymentIntentClientSecret:response.data.client_secret,
+          defaultShippingDetails: {
+            name: 'Anushka',
+            address: {
+              line1: 'no 33, hamparawa, diyathalwa'
+            }
+          }
+        });
+    
+        if (initResponse.error) {
+          console.log(error);
+          return;
+        }
+    
+        const paymentInit = await presentPaymentSheet();
+    
+        if (paymentInit.error) {
+          console.log(presentError);
+          return
         }
       }
-    });
-
-    if (error) {
+    } catch (error) {
       console.log(error);
-      return;
     }
 
-    const { error: presentError } = await presentPaymentSheet();
-
-    if (presentError) {
-      console.log(presentError);
-    }
+   
   };
 
   const renderCart = ({ item }) => {

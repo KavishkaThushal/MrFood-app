@@ -4,6 +4,7 @@ import cookieparser from 'cookie-parser'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import { UserRoute } from './routes/UserRoute.js'
+import { PaymentRouter } from './routes/PaymentRoute.js'
 dotenv.config()
 
 const app=express()
@@ -14,6 +15,7 @@ app.use(express.json())
 
 
 app.use('/api/user',UserRoute)
+app.use('/api/pay',PaymentRouter)
 
 mongoose.connect(process.env.DATABASE_URL).then(()=>(
     console.log('Database connected successfully')
