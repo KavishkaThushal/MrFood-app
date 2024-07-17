@@ -95,18 +95,21 @@ const cartSlice = createSlice({
         showCart:(state)=>{
             return state.cart
         },
-        getTotalAmount:(state)=>{
-            let total=0;
-            for(const item in state.cart){
-                if(state.cart[item]>0){
-                    const item=state.card.find((item)=>item.id===parseInt(item))
-                    total+=item.price*state.cart[item]
-                }
-            }
-            return total;
-        }
+       
     }
 })
 
 export const {addToCart,removeFromCart,showCart,getTotalAmount}=cartSlice.actions
+
+export const selectTotalAmount = (state) => {
+    let total = 0;
+    for (const item in state.cart.cart) {
+        if (state.cart.cart[item] > 0) {
+            const product = state.cart.card.find((product) => product.id === parseInt(item));
+            total += product.price * state.cart.cart[item];
+        }
+    }
+    return total;
+}
+
 export default cartSlice.reducer
