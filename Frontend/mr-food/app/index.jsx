@@ -6,12 +6,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { AntDesign } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-
+import Kaushan from '../assets/fonts/KaushanScript-Regular.ttf'
 SplashScreen.preventAutoHideAsync();
-
+import { StatusBar } from 'expo-status-bar';
 const index = () => {
   const [loaded, error] = useFonts({
-    'KaushanScript': require('../assets/fonts/KaushanScript-Regular.ttf'),
+    'KaushanScript': Kaushan,
   });
    const router=useRouter()
 
@@ -24,6 +24,10 @@ const index = () => {
   if (!loaded && !error) {
     return null;
   }
+
+  
+
+
  
 
  
@@ -52,6 +56,7 @@ const index = () => {
     </View>
     </SafeAreaView>
     </LinearGradient>
+    <StatusBar/>
     </ImageBackground>
   )
 }

@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground, TouchableOpacity, Image, FlatList } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons';
 import BgImg from '../../assets/images/bg.jpg'
@@ -13,12 +13,30 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { CardData } from '../../assets/data/data';
 import ItemCard from '../../components/ItemCard';
 import { Feather } from '@expo/vector-icons';
+import {addToCart,removeFromCart,showCart,getTotalAmount} from '../../Redux/Reducers/CartReducer'
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Item = () => {
   const [fav, setFav] = React.useState(false);
   const router=useRouter()
+  const [itemdata, setItemData] = React.useState(null)
   const {ItemId}=useLocalSearchParams();
+  const dispatch=useDispatch()
+  const {cart,card}=useSelector(state=>state.cart)
+  console.log(cart);
+
+  useEffect(()=>{
+    const fetchItemData=()=>{
+      const item=card.find((item)=>item.id===parseInt(ItemId))
+      console.log(item);
+      setItemData(item)
+  
+    }
+    fetchItemData()
+
+  },[ItemId])
+  
 
   const renderCard = ({ item }) => {
     
@@ -27,6 +45,18 @@ const Item = () => {
     
   }
   console.log(ItemId);
+
+  
+  const addToCartHandler=()=>{
+    dispatch(addToCart(ItemId))
+   
+  }
+  const removeCartHandler=()=>{
+    dispatch(removeFromCart(ItemId))
+   
+  }
+ 
+
   return (
     <ImageBackground source={BgImg} resizeMode='cover' className='flex-1 '>
       <LinearGradient className="flex-1" colors={["rgba(0,0,0,0.9)","rgba(0,0,0,0.8)"]}>
@@ -43,20 +73,20 @@ const Item = () => {
           </View>
             
           <View className='flex justify-center items-center  w-full mt-6'>
-          <Image source={img} className='w-56 h-56' resizeMode='cover' />
+          <Image source={itemdata?.img} className='w-56 h-56' resizeMode='cover' />
           </View>
 
           <View className='flex flex-row justify-center items-center mt-5'>
             <View className='flex flex-row justify-around items-center w-32'>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={addToCartHandler}>
                 <View className='flex justify-center items-center h-8 w-8 bg-[#343434] rounded-lg'>
                 <Entypo name="plus" size={22} color='white' />
                 </View>
                 </TouchableOpacity>
 
-                <Text className='text-white text-lg'>1</Text>
+                <Text className='text-white text-lg'>{cart[ItemId]? cart[ItemId]:0}</Text>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={removeCartHandler}>
                 <View className='flex justify-center items-center h-8 w-8 bg-[#343434] rounded-lg'>
                 <MaterialCommunityIcons name="minus" size={22} color="white" />
                 </View>
@@ -67,7 +97,7 @@ const Item = () => {
 
           </View>
             <View className='flex justify-center p-3'>
-              <Text className='text-white text-xl font-medium'>Special Prown Vegitable</Text>
+              <Text className='text-white text-xl font-medium'>{itemdata?.title}</Text>
               <Text className='text-white font-light text-sm mt-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat exercitationem harum rem doloribus, unde quia adipisci perferendis iusto omnis, id quis error. Reprehenderit officiis nobis laboriosam. Alias quo officiis rem.</Text>
             </View>
 
@@ -84,9 +114,9 @@ const Item = () => {
             </View>
 
             <View className='flex flex-row h-16 w-full bottom-0 bg-black px-2 py-4 absolute justify-between items-center'>
-              <View className='flex flex-col justify-center items-center'>
+              <View className='flex flex-col justify-center '>
                 <Text className='text-white text-xs'>Total Price</Text>
-                <Text className='text-[#12935e] text-lg'>$ 20.00</Text>
+                <Text className='text-[#12935e] text-lg'>{`Rs.${itemdata?.price*cart[ItemId]}.00`}</Text>
               </View>
 
               <View className='flex justify-center items-center h-7 w-7 rounded-lg bg-[#fba51d]'>

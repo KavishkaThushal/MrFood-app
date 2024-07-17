@@ -21,6 +21,8 @@ import {useSelector} from 'react-redux'
 
 const home = () => {
   const {card}=useSelector(state=>state.cart)
+  const {user}=useSelector(state=>state.user)
+  console.log(user);
   const data = [
     {id:1, title:'Pizza', icon:<Ionicons name="pizza" size={28} color={Colors.secondary} />},
     {id:2, title:'Burger', icon:<FontAwesome6 name="burger" size={28} color={Colors.secondary} />},
@@ -66,7 +68,7 @@ const home = () => {
           </View>
 
           <View className='flex  items-center text-center  mt-2'>
-            <Text className='text-center text-white text-2xl'>Welcome! Kavishka</Text>
+            <Text className='text-center text-white text-2xl'>{`Welcome! ${user?user.others.username:"Try it now"}`}</Text>
             <Text className='text-white text-2xl'>
                Order your favourite Food
             </Text>

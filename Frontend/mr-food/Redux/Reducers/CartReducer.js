@@ -85,7 +85,7 @@ const cartSlice = createSlice({
         removeFromCart:(state,action)=>{
             if(state.cart[action.payload]>0){
                 state.cart[action.payload]-=1
-                if(state,cart[action.payload]===0){
+                if(state.cart[action.payload]===0){
                     delete state.cart[action.payload]
                 
                 
@@ -99,7 +99,7 @@ const cartSlice = createSlice({
             let total=0;
             for(const item in state.cart){
                 if(state.cart[item]>0){
-                    const item=state.card.find((item)=>item.id===item)
+                    const item=state.card.find((item)=>item.id===parseInt(item))
                     total+=item.price*state.cart[item]
                 }
             }

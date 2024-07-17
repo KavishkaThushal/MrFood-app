@@ -1,15 +1,24 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
-import piz1 from '../assets/images/pizza/pizza1.png'
+
 import fire from '../assets/images/fire.png'
 import { Entypo } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-
-
+import {addToCart,removeFromCart,showCart,getTotalAmount} from '../Redux/Reducers/CartReducer'
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const ItemCard = ({img,title,rate,price,id}) => {
   const router=useRouter()
+  const dispatch=useDispatch()
+  const {cart}=useSelector(state=>state.cart)
+  
+ 
+
+  const addToCartHandler=()=>{
+    dispatch(addToCart(id))
+   
+  }
 
   return (
     <TouchableOpacity onPress={()=>(router.push(`/${id}`))}>
@@ -26,9 +35,11 @@ const ItemCard = ({img,title,rate,price,id}) => {
 
       <View className='flex flex-row items-center  justify-between'>
         <Text className='text-[#12935e] font-semibold'>Rs.{price}.00</Text>
+        <TouchableOpacity onPress={addToCartHandler}>
         <View className='flex justify-center items-center h-6 w-6 bg-[#fba51d] rounded-lg shadow-lg'>
         <Entypo name="plus" size={18} color="black" />
         </View>
+        </TouchableOpacity>
       </View>
       </View>
       

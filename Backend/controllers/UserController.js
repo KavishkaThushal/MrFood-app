@@ -21,7 +21,8 @@ export const SignUp = async (req, res) => {
         const newUser=new User({username,email,address,mobilenumber,postalcode,password:hashedPassword});
         await newUser.save();
         const token=createToken(newUser._id);
-        res.cookie('access_token',token,{httpOnly:true}).status(201).json({message:"User registered",success:true,token})
+        const {password:security,...others}=newUser._doc;
+        res.cookie('access_token',token,{httpOnly:true}).status(201).json({message:"User registered",success:true,token,others})
         
     } catch (error) {
         console.log(error);
@@ -39,7 +40,8 @@ export const SignIn = async (req, res) => {
         if(!isPassword)return res.status(400).json({message:"Invalid credentials",success:false});
 
         const token=createToken(user._id);
-        res.cookie('access_token',token,{httpOnly:true}).status(200).json({message:"User logged in",success:true,token})
+        const {password:security,...others}=user._doc;
+        res.cookie('access_token',token,{httpOnly:true}).status(200).json({message:"User logged in",success:true,token,others})
 
     } catch (error) {
         res.status(500).json({message:"Server Error",success:false});
